@@ -48,11 +48,31 @@ function getLanguageId(fileName: string): string {
 }
 
 /**
+ * 선택 영역 정보 추출
+ * @param editor 활성 에디터
+ * @returns 경로, 줄 범위, 선택 텍스트, 언어 ID
+ */
+function getSelectionInfo(editor: vscode.TextEditor) {
+    const selection = editor.selection;
+    const document = editor.document;
+
+    const relativePath = vscode.workspace.asRelativePath(document.uri, false);
+    const startLine = selection.start.line + 1;
+    const endLine = selection.end.line + 1;
+    const selectedText = document.getText(selection);
+    const languageId = getLanguageId(document.fileName);
+    const lineRange = startLine === endLine ? `${startLine}` : `${startLine}-${endLine}`;
+
+    return { relativePath, lineRange, selectedText, languageId };
+}
+
+/**
  * 확장 프로그램 활성화 시 호출
  * @param context 확장 프로그램 컨텍스트
  */
 export function activate(context: vscode.ExtensionContext) {
-    const disposable = vscode.commands.registerCommand('smartCodeCopy.copy', async () => {
+    // 경로만 복사 (기본)
+    const copyPath = vscode.commands.registerCommand('smartCodeCopy.copyPath', async () => {
         const editor = vscode.window.activeTextEditor;
 
         if (!editor) {
@@ -60,42 +80,40 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        const selection = editor.selection;
-
-        if (selection.isEmpty) {
+        if (editor.selection.isEmpty) {
             vscode.window.showWarningMessage('텍스트를 선택해주세요.');
             return;
         }
 
-        const document = editor.document;
+        const { relativePath, lineRange } = getSelectionInfo(editor);
+        const output = `${relativePath}:${lineRange}`;
 
-        // 워크스페이스 기준 상대 경로 계산
-        const relativePath = vscode.workspace.asRelativePath(document.uri, false);
+        await vscode.env.clipboard.writeText(output);
+        vscode.window.showInformationMessage(`복사 완료: ${output}`);
+    });
 
-        // 줄 번호 (1-indexed)
-        const startLine = selection.start.line + 1;
-        const endLine = selection.end.line + 1;
+    // 경로 + 코드 복사
+    const copyWithCode = vscode.commands.registerCommand('smartCodeCopy.copyWithCode', async () => {
+        const editor = vscode.window.activeTextEditor;
 
-        // 선택한 텍스트
-        const selectedText = document.getText(selection);
+        if (!editor) {
+            vscode.window.showWarningMessage('활성 에디터가 없습니다.');
+            return;
+        }
 
-        // 언어 식별자
-        const languageId = getLanguageId(document.fileName);
+        if (editor.selection.isEmpty) {
+            vscode.window.showWarningMessage('텍스트를 선택해주세요.');
+            return;
+        }
 
-        // 줄 범위 문자열 생성
-        const lineRange = startLine === endLine
-            ? `${startLine}`
-            : `${startLine}-${endLine}`;
-
-        // 최종 출력 형식
+        const { relativePath, lineRange, selectedText, languageId } = getSelectionInfo(editor);
         const output = `${relativePath}:${lineRange}\n\`\`\`${languageId}\n${selectedText}\n\`\`\``;
 
-        // 클립보드에 복사
         await vscode.env.clipboard.writeText(output);
         vscode.window.showInformationMessage(`복사 완료: ${relativePath}:${lineRange}`);
     });
 
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(copyPath, copyWithCode);
 }
 
 /**

@@ -1,51 +1,66 @@
 {
-  "name": "smart-code-copy",
-  "displayName": "Smart Code Copy",
-  "description": "코드 선택 영역을 파일 경로와 줄 번호와 함께 복사",
-  "version": "0.0.1",
-  "publisher": "hyukmin",
-  "engines": {
-    "vscode": "^1.85.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "smartCodeCopy.copy",
-        "title": "Smart Copy: 경로와 줄 번호 포함 복사"
-      }
+    "name": "smart-code-copy",
+    "displayName": "Smart Code Copy",
+    "description": "코드 선택 영역을 파일 경로와 줄 번호와 함께 복사",
+    "version": "0.0.1",
+    "publisher": "hyukmin",
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "smartCodeCopy.copy",
-        "key": "ctrl+shift+c",
-        "mac": "cmd+shift+c",
-        "when": "editorTextFocus && editorHasSelection"
-      }
-    ],
-    "menus": {
-      "editor/context": [
-        {
-          "command": "smartCodeCopy.copy",
-          "when": "editorHasSelection",
-          "group": "9_cutcopypaste"
+    "activationEvents": [],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "smartCodeCopy.copyPath",
+                "title": "Smart Copy: Copy Path Only"
+            },
+            {
+                "command": "smartCodeCopy.copyWithCode",
+                "title": "Smart Copy: Copy Path and Code"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "smartCodeCopy.copyPath",
+                "key": "ctrl+shift+c",
+                "mac": "cmd+shift+c",
+                "when": "editorTextFocus && editorHasSelection"
+            },
+            {
+                "command": "smartCodeCopy.copyWithCode",
+                "key": "ctrl+shift+alt+c",
+                "mac": "cmd+shift+alt+c",
+                "when": "editorTextFocus && editorHasSelection"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "smartCodeCopy.copyPath",
+                    "when": "editorHasSelection",
+                    "group": "9_cutcopypaste"
+                },
+                {
+                    "command": "smartCodeCopy.copyWithCode",
+                    "when": "editorHasSelection",
+                    "group": "9_cutcopypaste"
+                }
+            ]
         }
-      ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "lint": "eslint src --ext ts"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.85.0",
+        "@types/node": "^20.10.0",
+        "typescript": "^5.3.0"
     }
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "lint": "eslint src --ext ts"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.85.0",
-    "@types/node": "^20.10.0",
-    "typescript": "^5.3.0"
-  }
 }
