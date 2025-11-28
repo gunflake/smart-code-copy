@@ -3,6 +3,10 @@
 A VSCode extension that copies your selected code along with its file path and line numbers in a CLI-friendly format. Perfect for referencing code in issues, pull requests, documentation, or chat tools.
 
 ---
+## Screenshot
+![Screenshot](images/vscode-explain.jpg)
+
+---
 
 ## Features
 
