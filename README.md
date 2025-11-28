@@ -10,7 +10,7 @@ This extension provides **two copy modes**:
 
 | Mode | Shortcut | Description |
 |------|----------|-------------|
-| **Copy Path Only** | `Cmd+Shift+C` (Mac) / `Ctrl+Shift+C` (Win) | Copies file path and line range only |
+| **Copy Path Only** | `Alt+Shift+C` | Copies file path and line range only |
 | **Copy Path and Code** | `Cmd+Shift+Alt+C` (Mac) / `Ctrl+Shift+Alt+C` (Win) | Copies file path, line range, and code block |
 
 Both commands are also available via the **right-click context menu** when text is selected.
@@ -21,7 +21,7 @@ Both commands are also available via the **right-click context menu** when text 
 
 ### Example 1: Copy Path Only
 
-Select lines 37-42 in `src/utils/helper.py` and press `Cmd+Shift+C`:
+Select lines 37-42 in `src/utils/helper.py` and press `Alt+Shift+C`:
 
 **Clipboard result:**
 ```

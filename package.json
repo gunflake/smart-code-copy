@@ -4,6 +4,11 @@
     "description": "Copy the current selection as a CLI-friendly reference. This extension converts the selected code range into a compact path + line range format like 'src/utils/test.py:37-42', or optionally 'src/utils/test.py:37-42' followed by a formatted Markdown code block. For example, when you select a Python function and run the command, the clipboard will contain the relative file path, the exact line numbers, and (optionally) the original code wrapped in ```python ... ``` so that you can paste it directly into issues, pull requests, documents, or chat tools.",
     "version": "1.0.0",
     "publisher": "lifebuddy",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/your-name-or-org/smart-copy-for-cli.git"
+    },
+    "license": "MIT",
     "engines": {
         "vscode": "^1.85.0"
     },
@@ -26,8 +31,8 @@
         "keybindings": [
             {
                 "command": "smartCodeCopy.copyPath",
-                "key": "ctrl+shift+c",
-                "mac": "cmd+shift+c",
+                "key": "alt+shift+c",
+                "mac": "alt+shift+c",
                 "when": "editorTextFocus && editorHasSelection"
             },
             {
