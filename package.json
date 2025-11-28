@@ -1,7 +1,7 @@
 {
-    "name": "smart-code-copy",
-    "displayName": "Smart Code Copy",
-    "description": "코드 선택 영역을 파일 경로와 줄 번호와 함께 복사",
+    "name": "smart-copy-for-cli",
+    "displayName": "smart copy for cli",
+    "description": "Copy the current selection as a CLI-friendly reference. This extension converts the selected code range into a compact path + line range format like 'src/utils/test.py:37-42', or optionally 'src/utils/test.py:37-42' followed by a formatted Markdown code block. For example, when you select a Python function and run the command, the clipboard will contain the relative file path, the exact line numbers, and (optionally) the original code wrapped in ```python ... ``` so that you can paste it directly into issues, pull requests, documents, or chat tools.",
     "version": "0.0.1",
     "publisher": "hyukmin",
     "engines": {
